@@ -16,15 +16,14 @@ import java.time.Instant;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Document(collection = "administrator")
-public class Administrator {
+@Document(collection = "student")
+public class Student {
 
     @MongoId
     String id;
     String fullName;
-    String loginId;
-    String password;
     String email;
+    String phone;
 
     @CreatedDate
     Instant createdOn;

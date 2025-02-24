@@ -1,5 +1,6 @@
 package com.zhaomsdemo.research.schooling.domain;
 
+import com.zhaomsdemo.research.schooling.enumeration.StaffType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -16,15 +17,15 @@ import java.time.Instant;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Document(collection = "administrator")
-public class Administrator {
+@Document(collection = "staff")
+public class Staff {
 
     @MongoId
     String id;
     String fullName;
-    String loginId;
-    String password;
     String email;
+    String phone;
+    StaffType type;
 
     @CreatedDate
     Instant createdOn;
