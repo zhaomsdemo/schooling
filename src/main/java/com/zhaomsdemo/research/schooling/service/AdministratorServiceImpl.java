@@ -28,7 +28,7 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Override
     public Administrator update(String id, AdministratorDto administratorDto) {
         Administrator administrator = administratorRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException(id));
+                .orElseThrow(() -> new DataNotFoundException("Administrator not found : " + id));
         updateEntity(administrator, administratorDto);
         return administratorRepository.save(administrator);
     }
