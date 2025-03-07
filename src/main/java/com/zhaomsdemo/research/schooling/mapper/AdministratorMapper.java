@@ -5,6 +5,8 @@ import com.zhaomsdemo.research.schooling.dto.AdministratorDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import static java.util.Optional.ofNullable;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AdministratorMapper {
 
@@ -15,5 +17,12 @@ public class AdministratorMapper {
                 .password(dto.getPassword())
                 .fullName(dto.getFullName())
                 .build();
+    }
+
+    public static void updateEntity(Administrator administrator, AdministratorDto administratorDto) {
+        ofNullable(administratorDto.getFullName()).ifPresent(administrator::setFullName);
+        ofNullable(administratorDto.getEmail()).ifPresent(administrator::setEmail);
+        ofNullable(administratorDto.getLoginId()).ifPresent(administrator::setId);
+        ofNullable(administratorDto.getPassword()).ifPresent(administrator::setPassword);
     }
 }
