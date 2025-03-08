@@ -28,7 +28,7 @@ public class AdministratorController {
     @PostMapping("")
     public Result<Administrator> create(@RequestBody AdministratorDto administratorDto) {
         Administrator administrator = administratorService.create(administratorDto);
-        return Result.success(administrator);
+        return Result.success(administrator, 1);
     }
 
     @PutMapping("/{id}")

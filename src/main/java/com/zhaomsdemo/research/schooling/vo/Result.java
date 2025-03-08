@@ -23,6 +23,10 @@ public class Result<T> {
         return Result.<T>builder().code(200).message(message).data(data).build();
     }
 
+    public static <T> Result<T> success(T data, int total) {
+        return Result.<T>builder().code(200).message("success").data(data).total(total).build();
+    }
+
     public static <T> Result<T> fail(String message) {
         return Result.<T>builder().code(500).message(message).build();
     }
