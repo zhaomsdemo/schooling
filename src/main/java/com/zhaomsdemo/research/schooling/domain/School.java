@@ -28,6 +28,7 @@ public class School {
     String schoolName;
     String schoolCode;
     String address;
+    String grades;
     SchoolType schoolType;
     SchoolStatus status;
     String description;

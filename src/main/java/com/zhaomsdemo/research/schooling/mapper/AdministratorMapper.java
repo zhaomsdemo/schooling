@@ -10,7 +10,7 @@ import static java.util.Optional.ofNullable;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AdministratorMapper {
 
-    public static Administrator toEntity(AdministratorDto dto) {
+    public static Administrator newEntity(AdministratorDto dto) {
         return Administrator.builder()
                 .email(dto.getEmail())
                 .loginId(dto.getLoginId())

@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface AdministratorService {
 
+    List<Administrator> importAdministrators(List<AdministratorDto> administratorDtos);
     Administrator create(AdministratorDto administratorDto);
     Administrator update(String id, AdministratorDto administratorDto);
     Administrator delete(String id);
