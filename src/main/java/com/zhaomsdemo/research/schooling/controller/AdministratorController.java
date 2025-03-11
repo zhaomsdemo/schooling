@@ -56,7 +56,8 @@ public class AdministratorController {
     }
 
     @GetMapping("/all")
-    public Result<List<Administrator>> findAll(@RequestParam Integer page, @RequestParam Integer size) {
+    public Result<List<Administrator>> findAll(@RequestParam(required = false, defaultValue = "0") Integer page,
+                                               @RequestParam(required = false, defaultValue = "10") Integer size) {
         List<Administrator> administrators = administratorService.findAll(PageRequest.of(page, size));
         return Result.success(administrators, administrators.size());
     }

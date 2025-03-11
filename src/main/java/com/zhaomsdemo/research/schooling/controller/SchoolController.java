@@ -30,7 +30,8 @@ public class SchoolController {
     }
 
     @GetMapping("/all")
-    public Result<List<School>> findAllSchools(@RequestParam Integer page, @RequestParam Integer size) {
+    public Result<List<School>> findAllSchools(@RequestParam(required = false, defaultValue = "0") Integer page,
+                                               @RequestParam(required = false, defaultValue = "10") Integer size) {
         List<School> schools = schoolService.findAllSchools(PageRequest.of(page, size));
         return Result.success(schools, schools.size());
     }
@@ -38,6 +39,12 @@ public class SchoolController {
     @PostMapping("")
     public Result<School> registerSchool(@RequestBody SchoolDto schoolDto) {
         School school = schoolService.registerNewSchool(schoolDto);
+        return Result.success(school, 1);
+    }
+
+    @PostMapping("/{schoolId}/approver/{administratorId}")
+    public Result<School> addApprover(@PathVariable String schoolId, @PathVariable String administratorId) {
+        School school = schoolService.addApprover(schoolId, administratorId);
         return Result.success(school, 1);
     }
 }

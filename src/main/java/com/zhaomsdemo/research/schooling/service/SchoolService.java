@@ -14,4 +14,5 @@ public interface SchoolService {
     School findSchoolById(String id);
     School findSchoolByName(String schoolName);
     List<School> findAllSchools(Pageable pageable);
+    School addApprover(String schoolId, String administratorId);
 }

@@ -24,7 +24,11 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     public List<Administrator> importAdministrators(List<AdministratorDto> administratorDtos) {
-        List<Administrator> administrators = administratorDtos.stream().map(dto -> newEntity(dto))
+        List<Administrator> administrators = administratorDtos.stream()
+                .map(dto -> {
+                    Administrator administrator = newEntity(dto);
+                    return administratorRepository.save(administrator);
+                })
                 .collect(Collectors.toList());
         return administratorRepository.saveAll(administrators);
     }
