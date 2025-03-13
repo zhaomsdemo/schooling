@@ -7,6 +7,7 @@ import com.zhaomsdemo.research.schooling.enumeration.SchoolStatus;
 import com.zhaomsdemo.research.schooling.exception.DataNotFoundException;
 import com.zhaomsdemo.research.schooling.repository.AdministratorRepository;
 import com.zhaomsdemo.research.schooling.repository.SchoolRepository;
+import com.zhaomsdemo.research.schooling.vo.SchoolVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.zhaomsdemo.research.schooling.mapper.SchoolMapper.toNewEntity;
+import static com.zhaomsdemo.research.schooling.mapper.SchoolMapper.toVo;
 import static java.util.Optional.ofNullable;
 
 @Service
@@ -27,13 +30,13 @@ public class SchoolServiceImpl implements SchoolService {
     private final AdministratorRepository administratorRepository;
 
     @Override
-    public School registerNewSchool(SchoolDto schoolDto) {
+    public SchoolVo registerNewSchool(SchoolDto schoolDto) {
         School school = toNewEntity(schoolDto);
-        return schoolRepository.save(school);
+        return toVo(schoolRepository.save(school));
     }
 
     @Override
-    public School update(String id, SchoolDto schoolDto) {
+    public SchoolVo update(String id, SchoolDto schoolDto) {
         School school = schoolRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("School not found : " + id));
         ofNullable(schoolDto.getSchoolName()).ifPresent(school::setSchoolName);
@@ -42,47 +45,47 @@ public class SchoolServiceImpl implements SchoolService {
         ofNullable(schoolDto.getGrades()).ifPresent(school::setGrades);
         ofNullable(schoolDto.getSchoolType()).ifPresent(school::setSchoolType);
         ofNullable(schoolDto.getDescription()).ifPresent(school::setDescription);
-        return schoolRepository.save(school);
+        return toVo(schoolRepository.save(school));
     }
 
     @Override
-    public School unregisterSchool(String id) {
+    public SchoolVo unregisterSchool(String id) {
         School school = schoolRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("School not found : " + id));
         school.setStatus(SchoolStatus.ARCHIVED);
-        return schoolRepository.save(school);
+        return toVo(schoolRepository.save(school));
     }
 
     @Override
-    public School findSchoolById(String id) {
+    public SchoolVo findSchoolById(String id) {
         School school = schoolRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("School not found : " + id));
-        return school;
+        return toVo(school);
     }
 
     @Override
-    public School findSchoolByName(String schoolName) {
+    public SchoolVo findSchoolByName(String schoolName) {
         School school = schoolRepository.findFirstBySchoolName(schoolName)
                 .orElseThrow(() -> new DataNotFoundException("School not found : " + schoolName));
-        return school;
+        return toVo(school);
     }
 
     @Override
-    public List<School> findAllSchools(Pageable pageable) {
-        return schoolRepository.findAll(pageable).getContent();
+    public List<SchoolVo> findAllSchools(Pageable pageable) {
+        List<School> schools = schoolRepository.findAll(pageable).getContent();
+        return schools.stream().map(school -> toVo(school)).collect(Collectors.toList());
     }
 
     @Override
-    public School addApprover(String schoolId, String administratorId) {
+    public SchoolVo addApprover(String schoolId, List<String> administratorIds) {
         School school = schoolRepository.findById(schoolId)
                 .orElseThrow(() -> new DataNotFoundException("School not found : " + schoolId));
-        Administrator administrator = administratorRepository.findById(administratorId)
-                .orElseThrow(() -> new DataNotFoundException("Administrator not found : " + administratorId));
-        ofNullable(school.getApprovers()).ifPresentOrElse(set -> set.add(administrator),
+        List<Administrator> administrators = administratorRepository.findAllById(administratorIds);
+        ofNullable(school.getApprovers()).ifPresentOrElse(set -> set.addAll(administrators),
                 () -> {
                     school.setApprovers(new HashSet<>());
-                    school.getApprovers().add(administrator);
+                    school.getApprovers().addAll(administrators);
                 });
-        return schoolRepository.save(school);
+        return toVo(schoolRepository.save(school));
     }
 }
