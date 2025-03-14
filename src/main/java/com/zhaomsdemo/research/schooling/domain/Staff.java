@@ -9,6 +9,8 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -22,10 +24,14 @@ public class Staff {
 
     @MongoId
     String id;
+    @Indexed
     String fullName;
+    @Indexed(unique = true)
     String email;
     String phone;
     StaffType type;
+    @DBRef
+    School school;
 
     @CreatedDate
     Instant createdOn;
