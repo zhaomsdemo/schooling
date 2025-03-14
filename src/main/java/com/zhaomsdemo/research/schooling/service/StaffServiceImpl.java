@@ -34,14 +34,8 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public List<StaffVo> findByName(String name) {
-        List<Staff> staffs = staffRepository.findByFullNameContaining(name);
-        return staffs.stream().map(staff -> toVo(staff)).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<StaffVo> findByEmail(String email) {
-        List<Staff> staffs = staffRepository.findByEmailContaining(email);
+    public List<StaffVo> findByParamAndValue(String param, String value) {
+        List<Staff> staffs = staffRepository.findByNameAndValue(param, value);
         return staffs.stream().map(staff -> toVo(staff)).collect(Collectors.toList());
     }
 

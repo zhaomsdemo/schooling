@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -22,8 +23,11 @@ public class Student {
     @MongoId
     String id;
     String fullName;
+    String gender;
     String email;
     String phone;
+    @DBRef
+    School school;
 
     @CreatedDate
     Instant createdOn;

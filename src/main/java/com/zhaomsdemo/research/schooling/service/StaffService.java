@@ -8,8 +8,7 @@ import java.util.List;
 public interface StaffService {
 
     StaffVo findById(String id);
-    List<StaffVo> findByName(String name);
-    List<StaffVo> findByEmail(String email);
+    List<StaffVo> findByParamAndValue(String param, String value);
     StaffVo create(StaffDto staffDto);
     StaffVo update(String id, StaffDto staffDto);
     StaffVo delete(String id);

@@ -16,7 +16,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -35,12 +34,12 @@ public class School {
     SchoolType schoolType;
     SchoolStatus status;
     String description;
-    @DBRef(lazy = true)
-    List<Staff> staffs;
+    /*@DBRef(lazy = true)
+    List<Staff> staffs;*/
     @DBRef(lazy = true)
     Set<Administrator> approvers;
-    @DBRef(lazy = true)
-    List<Student> students;
+    /*@DBRef(lazy = true)
+    List<Student> students;*/
 
     @CreatedDate
     Instant createdOn;
