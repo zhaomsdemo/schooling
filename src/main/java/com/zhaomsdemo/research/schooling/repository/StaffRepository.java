@@ -12,4 +12,5 @@ public interface StaffRepository extends MongoRepository<Staff, String> {
 
     @Query(value = "{'?0':{'$regex':'?1','$options':'i'}}")
     List<Staff> findByNameAndValue(String name, String value);
+
 }
